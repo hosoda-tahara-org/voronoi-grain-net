@@ -133,5 +133,14 @@ body {
   font-size: smaller;
 }
 
+.title.is-1.publication-title {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
 
+.graphical-abstract {
+  width: 70%;
+  display: block;
+  margin: 0 auto;
+}
 
