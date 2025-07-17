@@ -137,13 +137,7 @@ class ImagePipeline:
             else:  # "image"の場合
                 self.image_processors.append(processor)
     
-    def process_image(self, image: np.ndarray) -> np.ndarray:
-        """imageのみに適用されるプロセッサーを実行"""
-        for processor in self.image_processors:
-            image = processor.process(image)
-        return image
-    
-    def process_both(self, image: np.ndarray, label: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    def process(self, image: np.ndarray, label: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """imageとlabelに適切にプロセッサーを適用"""
         # 両方に適用
         for processor in self.both_processors:

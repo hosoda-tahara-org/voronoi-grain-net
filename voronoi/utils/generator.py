@@ -72,7 +72,7 @@ class VoronoiGenerator:
         voronoi_label = self.image_renderer.render_voronoi_label(facets, **self.label_info)
         voronoi_image = self.image_renderer.render_voronoi_image(facets, self.gray_generator)
         
-        # 後処理（imageとlabelの両方に適用）
-        voronoi_image, voronoi_label = self.image_pipeline.process_both(voronoi_image, voronoi_label)
+        # 後処理
+        voronoi_image, voronoi_label = self.image_pipeline.process(voronoi_image, voronoi_label)
         
         return voronoi_image, voronoi_label 
