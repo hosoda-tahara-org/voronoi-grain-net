@@ -4,7 +4,6 @@
 *.pyc
 __pycache__/
 run.sh
-test_voronoi.py
 
 .venv/
 .vscode/
