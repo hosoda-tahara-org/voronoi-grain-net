@@ -58,6 +58,20 @@ We also gratefully acknowledge the following open-source repositories that contr
 - [qubvel-org/segmentation_models.pytorch](https://github.com/qubvel-org/segmentation_models.pytorch)
 - [eliahuhorwitz/Academic-project-page-template](https://github.com/eliahuhorwitz/Academic-project-page-template)
 
+
+## License
+
+This repository is licensed under the [MIT License](./LICENSE).
+
+However, please note the following:
+
+- The pretrained U-Net weights provided (or referenced) in this repository were trained using the implementation from [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet), which is licensed under the GNU General Public License v3.0 (GPL-3.0).
+- As a result, these weights are considered derivative works of GPL-3.0 code, and **are therefore subject to the terms of the GPL-3.0 license**.
+- Redistribution or use of these pretrained weights must comply with the GPL-3.0 license. The rest of the code in this repository remains under the MIT License.
+
+We encourage users to review both licenses if they plan to reuse or redistribute any parts of this project.
+
+
 ## Citation
 
 ```bibtex

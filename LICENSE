@@ -18,4 +18,23 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. 
+SOFTWARE.
+
+-----------------------------------------------------------------------
+
+Additional Notice Regarding Pretrained Weights
+
+This repository uses pretrained U-Net weights that were trained using the
+Pytorch-UNet implementation available at:
+
+    https://github.com/milesial/Pytorch-UNet
+
+This implementation is licensed under the GNU General Public License v3.0
+(GPL-3.0). As a result:
+
+- The pretrained weights are considered derivative works under the GPL-3.0.
+- Their use, redistribution, or modification must comply with the terms of the GPL-3.0.
+- The source code provided in this repository, excluding the pretrained weights, is licensed under the MIT License.
+
+Users intending to redistribute or incorporate the pretrained weights must
+adhere to the requirements of the GPL-3.0 license.
