@@ -10,23 +10,12 @@ This repository contains the official implementation of the paper:
 
 ## Overview
 
-Accurate segmentation of microstructural images is essential for quantitative materials characterization. However, traditional deep learning models often struggle due to limited annotated data and domain mismatch.
+This repository provides:
 
-This project introduces a **transfer learning framework using synthetic Voronoi diagrams** to pretrain segmentation models. The approach is tailored for equiaxed grain boundary extraction in α-phase pure titanium SEM images, and achieves **higher accuracy than ImageNet-based models**.
+1. 🧪 A **synthetic dataset generator** using Voronoi diagrams for microstructure-like segmentation tasks.
+2. 🧠 Pretrained U-Net weights trained on synthetic Voronoi images, ready to be fine-tuned on SEM data.
 
-### Key Features
-
-- **🔧 Synthetic Data Generation**  
-  Generate Voronoi diagrams with controllable parameters such as seed placement, grayscale variation, and noise.
-
-- **📈 Improved Transfer Learning**  
-  Pretraining on synthetic structures enhances generalization to real microstructures.
-
-- **📊 High IoU Performance**  
-  Outperforms ImageNet-pretrained models in grain boundary segmentation tasks.
-
-- **🧠 Feature Awareness**  
-  Captures microstructure-relevant features like **triple junctions**, enabling segmentation even in low-contrast regions.
+⚠️ Note: We do not provide a full training pipeline or U-Net implementation here. Please refer to [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet) for the base architecture.
 
 
 ## News
