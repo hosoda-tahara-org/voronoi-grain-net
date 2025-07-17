@@ -1,5 +1,5 @@
 """
-Test code for Voronoi diagram generation
+Sample code for Voronoi diagram generation
 """
 
 import numpy as np
