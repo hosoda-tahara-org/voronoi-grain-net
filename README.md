@@ -1,4 +1,4 @@
-# Transfer Learning Approach with Synthetic Data for High-Accuracy Segmentation of Equiaxed Grain Boundaries
+# voronoi-grain-net
 
 This repository contains the official implementation of the paper:  
 **_Transfer learning approach with synthetic data for high-accuracy segmentation of equiaxed grain boundaries_**.
