@@ -1,5 +1,5 @@
 """
-画像分割関連のクラス
+Classes related to image splitting
 """
 
 import cv2
@@ -10,11 +10,11 @@ from natsort import natsorted
 
 
 class ImageSplitter:
-    """画像を複数の画像に分割するクラス
+    """Class for splitting an image into multiple smaller images
     
     Attributes:
-        width (int): 分割後の画像の幅
-        height (int): 分割後の画像の高さ
+        width (int): Width of each split image
+        height (int): Height of each split image
     """
     
     def __init__(self, width: int, height: int):
@@ -22,23 +22,23 @@ class ImageSplitter:
         self.height = height
     
     def split_image(self, image: np.ndarray) -> List[np.ndarray]:
-        """画像を複数の画像に分割する
-        
+        """Split an image into multiple smaller images
+
         Args:
-            image (np.ndarray): 分割する画像
-            
+            image (np.ndarray): The image to be split
+
         Returns:
-            List[np.ndarray]: 分割された画像のリスト
-            
+            List[np.ndarray]: A list of split images
+
         Raises:
-            ValueError: 画像サイズが分割サイズで割り切れない場合
+            ValueError: If the image size is not divisible by the split size
         """
         h, w = image.shape[:2]
         rows = h // self.height
         columns = w // self.width
         
         if w % self.width != 0 or h % self.height != 0:
-            raise ValueError(f"画像サイズ({w}x{h})が分割サイズ({self.width}x{self.height})で割り切れません")
+            raise ValueError(f"Image size ({w}x{h}) is not divisible by split size ({self.width}x{self.height})")
 
         split_images = []
         for i in range(rows):
@@ -54,17 +54,17 @@ class ImageSplitter:
 
 
 class VoronoiSplitter:
-    """ボロノイ図とラベルを分割するクラス
-    
+    """Class for splitting Voronoi images and their corresponding labels
+
     Attributes:
-        splitter (Optional[ImageSplitter]): 画像分割器（設定で分割が有効な場合のみ）
+        splitter (Optional[ImageSplitter]): Image splitter (None if splitting is not specified in the config)
     """
     
     def __init__(self, config: Dict[str, Any]):
-        """初期化
-        
+        """Initialize the splitter
+
         Args:
-            config (Dict[str, Any]): 設定辞書
+            config (Dict[str, Any]): Configuration dictionary
         """
         self.splitter = None
         if "split" in config:
@@ -75,18 +75,18 @@ class VoronoiSplitter:
             )
 
     def __call__(self, image: np.ndarray, label: np.ndarray) -> Tuple[List[np.ndarray], List[np.ndarray]]:
-        """画像とラベルを分割する
-        
+        """Split the image and label
+
         Args:
-            image (np.ndarray): 分割する画像
-            label (np.ndarray): 分割するラベル
-            
+            image (np.ndarray): The image to be split
+            label (np.ndarray): The label to be split
+
         Returns:
-            Tuple[List[np.ndarray], List[np.ndarray]]: (分割された画像のリスト, 分割されたラベルのリスト)
-            
+            Tuple[List[np.ndarray], List[np.ndarray]]: A tuple of (list of split images, list of split labels)
+
         Note:
-            config内にsplitが設定されている場合、画像とラベルを分割します。
-            splitが設定されていない場合は、リストに変換して返します。
+            If "split" is specified in the config, both image and label will be split accordingly.
+            If not, they will be returned as single-element lists.
         """
         if self.splitter:
             image_list = self.splitter.split_image(image)

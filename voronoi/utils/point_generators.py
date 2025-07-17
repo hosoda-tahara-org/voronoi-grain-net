@@ -1,5 +1,5 @@
 """
-母点生成関連のクラス
+Classes related to seed point generation
 """
 
 import numpy as np
@@ -7,7 +7,7 @@ from .base import PointGenerator
 
 
 class RandomPointGenerator(PointGenerator):
-    """完全ランダムな母点を生成するクラス"""
+    """Generator for completely random seed points"""
     
     def generate(self, width: int, height: int, **kwargs) -> np.ndarray:
         if "points_num" not in kwargs:
@@ -17,13 +17,14 @@ class RandomPointGenerator(PointGenerator):
 
 
 class PoissonDiskPointGenerator(PointGenerator):
-    """ポアソンディスクサンプリングによる母点生成クラス"""
+    """Generator for seed points using Poisson disk sampling"""
     
     def generate(self, width: int, height: int, **kwargs) -> np.ndarray:
         if "min_distance" not in kwargs:
             raise ValueError("min_distance is required for PoissonDiskPointGenerator")
         if "max_attempts" not in kwargs:
             raise ValueError("max_attempts is required for PoissonDiskPointGenerator")
+        
         min_distance = kwargs["min_distance"]
         max_attempts = kwargs["max_attempts"]
         
@@ -34,7 +35,7 @@ class PoissonDiskPointGenerator(PointGenerator):
         while attempts < max_attempts:
             new_point = np.random.randint(0, [height, width], 2)
             
-            if len(points) == 0:  # 最初の点はそのまま追加
+            if len(points) == 0:  # Add the first point unconditionally
                 points = np.vstack([points, new_point])
                 attempts = 0
             else:
@@ -49,13 +50,13 @@ class PoissonDiskPointGenerator(PointGenerator):
 
 
 class PointGeneratorFactory:
-    """母点生成器のファクトリークラス"""
+    """Factory class for creating seed point generators"""
     
     def create_generator(self, method: str, **params) -> PointGenerator:
-        """母点生成器を動的に生成"""
+        """Dynamically create a seed point generator"""
         if method == "random":
             return RandomPointGenerator()
         elif method == "poisson_disk":
             return PoissonDiskPointGenerator()
         else:
-            raise ValueError(f"Unknown point generation method: {method}") 
+            raise ValueError(f"Unknown point generation method: {method}")

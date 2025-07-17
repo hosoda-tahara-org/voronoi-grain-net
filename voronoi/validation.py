@@ -4,25 +4,25 @@ from typing import Dict, Any, List, Union
 import sys
 
 class VoronoiConfigValidator:
-    """ボロノイ図生成設定ファイルのバリデーションを行うクラス"""
+    """Class for validating Voronoi diagram generation configuration files"""
     
     def __init__(self):
         self.errors = []
         self.warnings = []
     
     def validate_config(self, config: Dict[str, Any]) -> bool:
-        """設定ファイル全体のバリデーション"""
+        """Validate the entire configuration file"""
         self.errors = []
         self.warnings = []
         
-        # 必須セクションの存在チェック
+        # Check for required sections
         if "voronoi" not in config:
-            self.errors.append("'voronoi' セクションが必須です")
+            self.errors.append("'voronoi' section is required")
             return False
         
         voronoi_config = config["voronoi"]
         
-        # 各セクションのバリデーション
+        # Validate each section
         self._validate_basic_settings(voronoi_config)
         self._validate_point_generation(voronoi_config)
         self._validate_image_info(voronoi_config)
@@ -33,105 +33,105 @@ class VoronoiConfigValidator:
         return len(self.errors) == 0
     
     def _validate_basic_settings(self, config: Dict[str, Any]):
-        """基本設定のバリデーション"""
+        """Validate basic settings"""
         # width
         if "width" not in config:
-            self.errors.append("'width' が必須です")
+            self.errors.append("'width' is required")
         elif not isinstance(config["width"], int) or config["width"] <= 0:
-            self.errors.append("'width' は正の整数である必要があります")
+            self.errors.append("'width' must be a positive integer")
         
         # height
         if "height" not in config:
-            self.errors.append("'height' が必須です")
+            self.errors.append("'height' is required")
         elif not isinstance(config["height"], int) or config["height"] <= 0:
-            self.errors.append("'height' は正の整数である必要があります")
+            self.errors.append("'height' must be a positive integer")
         
         # output_dir
         if "output_dir" not in config:
-            self.errors.append("'output_dir' が必須です")
+            self.errors.append("'output_dir' is required")
         elif not isinstance(config["output_dir"], str):
-            self.errors.append("'output_dir' は文字列である必要があります")
+            self.errors.append("'output_dir' must be a string")
     
     def _validate_point_generation(self, config: Dict[str, Any]):
-        """母点生成設定のバリデーション"""
+        """Validate point generation settings"""
         if "point_generation" not in config:
-            self.errors.append("'point_generation' セクションが必須です")
+            self.errors.append("'point_generation' section is required")
             return
         
         pg_config = config["point_generation"]
         
         # method
         if "method" not in pg_config:
-            self.errors.append("'point_generation.method' が必須です")
+            self.errors.append("'point_generation.method' is required")
         elif pg_config["method"] not in ["random", "poisson_disk"]:
-            self.errors.append("'point_generation.method' は 'random' または 'poisson_disk' である必要があります")
+            self.errors.append("'point_generation.method' must be 'random' or 'poisson_disk'")
         
         # params
         if "params" not in pg_config:
-            self.errors.append("'point_generation.params' が必須です")
+            self.errors.append("'point_generation.params' is required")
         else:
             params = pg_config["params"]
             method = pg_config.get("method", "")
             
             if method == "random":
                 if "points_num" not in params:
-                    self.errors.append("'random' メソッドでは 'points_num' が必須です")
+                    self.errors.append("'points_num' is required for 'random' method")
                 elif not isinstance(params["points_num"], list):
-                    self.errors.append("'points_num' はリストである必要があります")
+                    self.errors.append("'points_num' must be a list")
                 elif not all(isinstance(x, int) and x > 0 for x in params["points_num"]):
-                    self.errors.append("'points_num' の各要素は正の整数である必要があります")
+                    self.errors.append("Each element of 'points_num' must be a positive integer")
             
             elif method == "poisson_disk":
                 if "min_distance" not in params:
-                    self.errors.append("'poisson_disk' メソッドでは 'min_distance' が必須です")
+                    self.errors.append("'min_distance' is required for 'poisson_disk' method")
                 elif not isinstance(params["min_distance"], list):
-                    self.errors.append("'min_distance' はリストである必要があります")
+                    self.errors.append("'min_distance' must be a list")
                 elif not all(isinstance(x, (int, float)) and x > 0 for x in params["min_distance"]):
-                    self.errors.append("'min_distance' の各要素は正の数である必要があります")
+                    self.errors.append("Each element of 'min_distance' must be a positive number")
                 
                 if "max_attempts" in params:
                     if not isinstance(params["max_attempts"], int) or params["max_attempts"] <= 0:
-                        self.errors.append("'max_attempts' は正の整数である必要があります")
+                        self.errors.append("'max_attempts' must be a positive integer")
         
     def _validate_image_info(self, config: Dict[str, Any]):
-        """画像情報のバリデーション"""
+        """Validate image information"""
         if "image_info" not in config:
-            self.errors.append("'image_info' セクションが必須です")
+            self.errors.append("'image_info' section is required")
             return
         
         image_config = config["image_info"]
         
         # method
         if "method" not in image_config:
-            self.errors.append("'image_info.method' が必須です")
+            self.errors.append("'image_info.method' is required")
         elif image_config["method"] not in ["uniform", "gaussian"]:
-            self.errors.append("'image_info.method' は 'uniform' または 'gaussian' である必要があります")
+            self.errors.append("'image_info.method' must be 'uniform' or 'gaussian'")
         
-        # params (gaussianの場合)
+        # params (for gaussian)
         if image_config.get("method") == "gaussian":
             if "params" not in image_config:
-                self.errors.append("'gaussian' メソッドでは 'image_info.params' が必須です")
+                self.errors.append("'image_info.params' is required for 'gaussian' method")
             else:
                 params = image_config["params"]
                 if "mean" not in params:
-                    self.errors.append("'gaussian' メソッドでは 'mean' が必須です")
+                    self.errors.append("'mean' is required for 'gaussian' method")
                 elif not isinstance(params["mean"], (int, float)) or not (0 <= params["mean"] <= 255):
-                    self.errors.append("'mean' は0-255の数値である必要があります")
+                    self.errors.append("'mean' must be a number between 0-255")
                 
                 if "std" not in params:
-                    self.errors.append("'gaussian' メソッドでは 'std' が必須です")
+                    self.errors.append("'std' is required for 'gaussian' method")
                 elif not isinstance(params["std"], (int, float)) or params["std"] <= 0:
-                    self.errors.append("'std' は正の数値である必要があります")
+                    self.errors.append("'std' must be a positive number")
     
     def _validate_post_processors(self, config: Dict[str, Any]):
-        """後処理プロセッサーのバリデーション"""
+        """Validate post-processors"""
         if "post_processors" not in config:
-            self.warnings.append("'post_processors' セクションがありません（後処理は適用されません）")
+            self.warnings.append("'post_processors' section is missing (no post-processing will be applied)")
             return
         
         processors = config["post_processors"]
         if not isinstance(processors, list):
-            self.errors.append("'post_processors' はリストである必要があります")
+            self.errors.append("'post_processors' must be a list")
             return
         
         valid_types = ["crop", "elliptical_mask", "gaussian_noise", "perlin_noise"]
@@ -139,169 +139,169 @@ class VoronoiConfigValidator:
         
         for i, processor in enumerate(processors):
             if not isinstance(processor, dict):
-                self.errors.append(f"post_processors[{i}] は辞書である必要があります")
+                self.errors.append(f"post_processors[{i}] must be a dictionary")
                 continue
             
             # type
             if "type" not in processor:
-                self.errors.append(f"post_processors[{i}].type が必須です")
+                self.errors.append(f"post_processors[{i}].type is required")
             elif processor["type"] not in valid_types:
-                self.errors.append(f"post_processors[{i}].type は {valid_types} のいずれかである必要があります")
+                self.errors.append(f"post_processors[{i}].type must be one of {valid_types}")
             
             # apply_to
             if "apply_to" not in processor:
-                self.errors.append(f"post_processors[{i}].apply_to が必須です")
+                self.errors.append(f"post_processors[{i}].apply_to is required")
             elif processor["apply_to"] not in valid_apply_to:
-                self.errors.append(f"post_processors[{i}].apply_to は {valid_apply_to} のいずれかである必要があります")
+                self.errors.append(f"post_processors[{i}].apply_to must be one of {valid_apply_to}")
             
             # params
             if "params" not in processor:
-                self.errors.append(f"post_processors[{i}].params が必須です")
+                self.errors.append(f"post_processors[{i}].params is required")
             else:
                 self._validate_processor_params(processor["type"], processor["params"], i)
     
     def _validate_processor_params(self, processor_type: str, params: Dict[str, Any], index: int):
-        """プロセッサー固有のパラメータバリデーション"""
+        """Validate processor-specific parameters"""
         if processor_type == "crop":
             if "crop_width" not in params:
-                self.errors.append(f"post_processors[{index}].params.crop_width が必須です")
+                self.errors.append(f"post_processors[{index}].params.crop_width is required")
             elif not isinstance(params["crop_width"], int) or params["crop_width"] <= 0:
-                self.errors.append(f"post_processors[{index}].params.crop_width は正の整数である必要があります")
+                self.errors.append(f"post_processors[{index}].params.crop_width must be a positive integer")
             
             if "crop_height" not in params:
-                self.errors.append(f"post_processors[{index}].params.crop_height が必須です")
+                self.errors.append(f"post_processors[{index}].params.crop_height is required")
             elif not isinstance(params["crop_height"], int) or params["crop_height"] <= 0:
-                self.errors.append(f"post_processors[{index}].params.crop_height は正の整数である必要があります")
+                self.errors.append(f"post_processors[{index}].params.crop_height must be a positive integer")
         
         elif processor_type == "elliptical_mask":
             required_params = ["min_num", "max_num", "min_size", "max_size", "color"]
             for param in required_params:
                 if param not in params:
-                    self.errors.append(f"post_processors[{index}].params.{param} が必須です")
+                    self.errors.append(f"post_processors[{index}].params.{param} is required")
             
             if "min_num" in params and "max_num" in params:
                 if not isinstance(params["min_num"], int) or params["min_num"] < 0:
-                    self.errors.append(f"post_processors[{index}].params.min_num は0以上の整数である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.min_num must be a non-negative integer")
                 if not isinstance(params["max_num"], int) or params["max_num"] < 0:
-                    self.errors.append(f"post_processors[{index}].params.max_num は0以上の整数である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.max_num must be a non-negative integer")
                 if params["min_num"] > params["max_num"]:
-                    self.errors.append(f"post_processors[{index}].params.min_num は max_num 以下である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.min_num must be less than or equal to max_num")
             
             if "min_size" in params and "max_size" in params:
                 if not isinstance(params["min_size"], int) or params["min_size"] <= 0:
-                    self.errors.append(f"post_processors[{index}].params.min_size は正の整数である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.min_size must be a positive integer")
                 if not isinstance(params["max_size"], int) or params["max_size"] <= 0:
-                    self.errors.append(f"post_processors[{index}].params.max_size は正の整数である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.max_size must be a positive integer")
                 if params["min_size"] > params["max_size"]:
-                    self.errors.append(f"post_processors[{index}].params.min_size は max_size 以下である必要があります")
+                    self.errors.append(f"post_processors[{index}].params.min_size must be less than or equal to max_size")
             
             if "color" in params:
                 if not isinstance(params["color"], list) or len(params["color"]) != 3:
-                    self.errors.append(f"post_processors[{index}].params.color は3要素のリストである必要があります")
+                    self.errors.append(f"post_processors[{index}].params.color must be a 3-element list")
                 elif not all(isinstance(x, int) and 0 <= x <= 255 for x in params["color"]):
-                    self.errors.append(f"post_processors[{index}].params.color の各要素は0-255の整数である必要があります")
+                    self.errors.append(f"Each element of post_processors[{index}].params.color must be an integer between 0-255")
         
         elif processor_type == "gaussian_noise":
             if "mean" not in params:
-                self.errors.append(f"post_processors[{index}].params.mean が必須です")
+                self.errors.append(f"post_processors[{index}].params.mean is required")
             elif not isinstance(params["mean"], (int, float)):
-                self.errors.append(f"post_processors[{index}].params.mean は数値である必要があります")
+                self.errors.append(f"post_processors[{index}].params.mean must be a number")
             
             if "std" not in params:
-                self.errors.append(f"post_processors[{index}].params.std が必須です")
+                self.errors.append(f"post_processors[{index}].params.std is required")
             elif not isinstance(params["std"], (int, float)) or params["std"] <= 0:
-                self.errors.append(f"post_processors[{index}].params.std は正の数値である必要があります")
+                self.errors.append(f"post_processors[{index}].params.std must be a positive number")
         
         elif processor_type == "perlin_noise":
             if "res" not in params:
-                self.errors.append(f"post_processors[{index}].params.res が必須です")
+                self.errors.append(f"post_processors[{index}].params.res is required")
             elif not isinstance(params["res"], list) or len(params["res"]) != 2:
-                self.errors.append(f"post_processors[{index}].params.res は2要素のリストである必要があります")
+                self.errors.append(f"post_processors[{index}].params.res must be a 2-element list")
             elif not all(isinstance(x, int) and x > 0 for x in params["res"]):
-                self.errors.append(f"post_processors[{index}].params.res の各要素は正の整数である必要があります")
+                self.errors.append(f"Each element of post_processors[{index}].params.res must be a positive integer")
             
             if "noise_range" not in params:
-                self.errors.append(f"post_processors[{index}].params.noise_range が必須です")
+                self.errors.append(f"post_processors[{index}].params.noise_range is required")
             elif not isinstance(params["noise_range"], (int, float)) or params["noise_range"] <= 0:
-                self.errors.append(f"post_processors[{index}].params.noise_range は正の数値である必要があります")
+                self.errors.append(f"post_processors[{index}].params.noise_range must be a positive number")
     
     def _validate_datatype_info(self, config: Dict[str, Any]):
-        """データタイプ情報のバリデーション"""
+        """Validate datatype information"""
         if "datatype_info" not in config:
-            self.errors.append("'datatype_info' セクションが必須です")
+            self.errors.append("'datatype_info' section is required")
             return
         
         datatype_config = config["datatype_info"]
         if not isinstance(datatype_config, dict):
-            self.errors.append("'datatype_info' は辞書である必要があります")
+            self.errors.append("'datatype_info' must be a dictionary")
             return
         
         for datatype, params in datatype_config.items():
             if not isinstance(params, dict):
-                self.errors.append(f"datatype_info.{datatype} は辞書である必要があります")
+                self.errors.append(f"datatype_info.{datatype} must be a dictionary")
                 continue
             
             # diagram_num
             if "diagram_num" not in params:
-                self.errors.append(f"datatype_info.{datatype}.diagram_num が必須です")
+                self.errors.append(f"datatype_info.{datatype}.diagram_num is required")
             elif not isinstance(params["diagram_num"], int) or params["diagram_num"] <= 0:
-                self.errors.append(f"datatype_info.{datatype}.diagram_num は正の整数である必要があります")
+                self.errors.append(f"datatype_info.{datatype}.diagram_num must be a positive integer")
             
             # seed
             if "seed" not in params:
-                self.errors.append(f"datatype_info.{datatype}.seed が必須です")
+                self.errors.append(f"datatype_info.{datatype}.seed is required")
             elif not isinstance(params["seed"], int):
-                self.errors.append(f"datatype_info.{datatype}.seed は整数である必要があります")
+                self.errors.append(f"datatype_info.{datatype}.seed must be an integer")
     
     def _validate_split_settings(self, config: Dict[str, Any]):
-        """分割設定のバリデーション"""
+        """Validate split settings"""
         if "split" not in config:
-            self.errors.append("'split' セクションが必須です")
+            self.errors.append("'split' section is required")
             return
         
         split_config = config["split"]
         
         # split_width
         if "split_width" not in split_config:
-            self.errors.append("'split.split_width' が必須です")
+            self.errors.append("'split.split_width' is required")
         elif not isinstance(split_config["split_width"], int) or split_config["split_width"] <= 0:
-            self.errors.append("'split.split_width' は正の整数である必要があります")
+            self.errors.append("'split.split_width' must be a positive integer")
         
         # split_height
         if "split_height" not in split_config:
-            self.errors.append("'split.split_height' が必須です")
+            self.errors.append("'split.split_height' is required")
         elif not isinstance(split_config["split_height"], int) or split_config["split_height"] <= 0:
-            self.errors.append("'split.split_height' は正の整数である必要があります")
+            self.errors.append("'split.split_height' must be a positive integer")
         
-        # 分割サイズが元画像サイズより大きい場合の警告
+        # Warning when split size is larger than original image size
         if "width" in config and "height" in config:
             if split_config.get("split_width", 0) > config["width"]:
-                self.warnings.append("split_width が元画像の width より大きいです")
+                self.warnings.append("split_width is larger than the original image width")
             if split_config.get("split_height", 0) > config["height"]:
-                self.warnings.append("split_height が元画像の height より大きいです")
+                self.warnings.append("split_height is larger than the original image height")
     
     def get_errors(self) -> List[str]:
-        """エラーメッセージのリストを取得"""
+        """Get list of error messages"""
         return self.errors
     
     def get_warnings(self) -> List[str]:
-        """警告メッセージのリストを取得"""
+        """Get list of warning messages"""
         return self.warnings
     
     def print_validation_results(self):
-        """バリデーション結果を出力"""
+        """Print validation results"""
         if self.errors:
-            print("❌ バリデーションエラー:")
+            print("❌ Validation errors:")
             for error in self.errors:
                 print(f"  - {error}")
         
         if self.warnings:
-            print("⚠️  警告:")
+            print("⚠️  Warnings:")
             for warning in self.warnings:
                 print(f"  - {warning}")
 
 def validate_yaml_file(config_file: str) -> bool:
-    """YAMLファイルをバリデーションする関数"""
+    """Function to validate YAML file"""
     try:
         with open(config_file, 'r') as f:
             config = yaml.load(f, Loader=yaml.FullLoader)
@@ -313,19 +313,19 @@ def validate_yaml_file(config_file: str) -> bool:
         return is_valid
         
     except yaml.YAMLError as e:
-        print(f"❌ YAMLファイルの解析エラー: {e}")
+        print(f"❌ YAML file parsing error: {e}")
         return False
     except FileNotFoundError:
-        print(f"❌ ファイルが見つかりません: {config_file}")
+        print(f"❌ File not found: {config_file}")
         return False
     except Exception as e:
-        print(f"❌ 予期しないエラー: {e}")
+        print(f"❌ Unexpected error: {e}")
         return False
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("使用方法: python validation.py <config_file>")
+        print("Usage: python validation.py <config_file>")
         sys.exit(1)
     
     config_file = sys.argv[1]

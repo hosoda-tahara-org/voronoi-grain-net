@@ -1,5 +1,5 @@
 """
-ボロノイ計算関連のクラス
+Classes related to Voronoi diagram computation
 """
 
 import cv2
@@ -8,16 +8,15 @@ from typing import List
 
 
 class VoronoiCalculator:
-    """ボロノイ図を計算するクラス"""
+    """Class for computing Voronoi diagrams"""
     
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
     
     def calculate(self, points: np.ndarray) -> List[np.ndarray]:
-        """ボロノイ図を計算する"""
         subdiv = cv2.Subdiv2D((0, 0, self.width, self.height))
         for y, x in points:
             subdiv.insert((x.astype(float), y.astype(float)))
         facets, _ = subdiv.getVoronoiFacetList([])
-        return [f.astype(int) for f in facets] 
+        return [f.astype(int) for f in facets]

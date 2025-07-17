@@ -1,5 +1,5 @@
 """
-ボロノイ図生成のテスト用コード
+Test code for Voronoi diagram generation
 """
 
 import numpy as np
@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     np.random.seed(RANDOM_SEED)
     
-    # 設定例1: ランダム生成
+    # Example configuration 1: Random generation
     config_random = {
         "width": WIDTH,
         "height": HEIGHT,
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         ]
     }
     
-    # 設定例2: ポアソンディスクサンプリング
+    # Example configuration 2: Poisson disk sampling
     config_poisson = {
         "width": WIDTH,
         "height": HEIGHT,
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         ]
     }
     
-    # ランダム生成でテスト（異なるパラメータで複数回）
+    # Test with random generation (multiple times with different parameters)
     print("Testing Random Point Generation...")
     voronoi_random = VoronoiGenerator(config_random)
     
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.show()
     
-    # ポアソンディスクでテスト（異なるパラメータで複数回）
+    # Test with Poisson disk (multiple times with different parameters)
     print("Testing Poisson Disk Point Generation...")
     voronoi_poisson = VoronoiGenerator(config_poisson)
     

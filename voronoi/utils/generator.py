@@ -1,5 +1,5 @@
 """
-ボロノイ図生成のメインクラス
+Main class for generating Voronoi diagrams
 """
 
 import numpy as np
@@ -12,67 +12,67 @@ from .processors import ImagePipeline
 
 
 class VoronoiGenerator:
-    """ボロノイ図生成のメインクラス
-    
+    """Main class for generating Voronoi diagrams
+
     Attributes:
-        width (int): 画像の幅
-        height (int): 画像の高さ
-        point_generator (PointGenerator): 母点生成器
-        label_info (Dict): ラベル描画設定
-        gray_generator (GrayValueGenerator): グレースケール値生成器
-        voronoi_calculator (VoronoiCalculator): ボロノイ計算器
-        image_renderer (ImageRenderer): 画像描画器
-        image_pipeline (ImagePipeline): 画像処理パイプライン
+        width (int): Width of the image
+        height (int): Height of the image
+        point_generator (PointGenerator): Seed point generator
+        label_info (Dict): Label rendering settings
+        gray_generator (GrayValueGenerator): Grayscale value generator
+        voronoi_calculator (VoronoiCalculator): Voronoi diagram calculator
+        image_renderer (ImageRenderer): Image renderer
+        image_pipeline (ImagePipeline): Image post-processing pipeline
     """
     
     def __init__(self, config: Dict[str, Any]):
         self.width = config["width"]
         self.height = config["height"]
         
-        # 母点生成器を初期化
+        # Initialize seed point generator
         method = config["point_generation"]["method"]
         self.point_generator = PointGeneratorFactory().create_generator(
             method, 
             **config["point_generation"]["params"]
         )
         
-        # 描画設定
+        # Label rendering configuration
         self.label_info = config.get("label_info", {})
         
-        # グレースケール値生成器を初期化
+        # Initialize grayscale value generator
         image_info = config["image_info"]
         self.gray_generator = GrayValueFactory().create_generator(
             image_info["method"],
             **image_info.get("params", {})
         )
 
-        # その他のコンポーネントを初期化
+        # Initialize other components
         self.voronoi_calculator = VoronoiCalculator(self.width, self.height)
         self.image_renderer = ImageRenderer(self.width, self.height)
         self.image_pipeline = ImagePipeline(config)
     
     def generate(self, **kwargs) -> Tuple[np.ndarray, np.ndarray]:
-        """ボロノイ図を生成する
-        
+        """Generate a Voronoi diagram
+
         Args:
-            **kwargs: 母点生成の動的パラメータ
-                - ランダム生成の場合: points_num
-                - ポアソンディスクの場合: min_distance, max_attempts
-        
+            **kwargs: Dynamic parameters for seed point generation
+                - For random generation: points_num
+                - For Poisson disk sampling: min_distance, max_attempts
+
         Returns:
-            Tuple[np.ndarray, np.ndarray]: (画像, ラベル)のタプル
+            Tuple[np.ndarray, np.ndarray]: A tuple of (image, label)
         """
-        # 母点生成
+        # Generate seed points
         points = self.point_generator.generate(self.width, self.height, **kwargs)
         
-        # ボロノイ計算
+        # Compute Voronoi diagram
         facets = self.voronoi_calculator.calculate(points)
         
-        # 画像描画
+        # Render image and label
         voronoi_label = self.image_renderer.render_voronoi_label(facets, **self.label_info)
         voronoi_image = self.image_renderer.render_voronoi_image(facets, self.gray_generator)
         
-        # 後処理
+        # Post-processing
         voronoi_image, voronoi_label = self.image_pipeline.process(voronoi_image, voronoi_label)
         
-        return voronoi_image, voronoi_label 
+        return voronoi_image, voronoi_label

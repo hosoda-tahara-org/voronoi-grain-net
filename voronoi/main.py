@@ -10,7 +10,7 @@ from splitters import VoronoiSplitter
 from validation import VoronoiConfigValidator
 
 def validate_config_file(config):
-    """設定ファイルのバリデーションを実行する"""
+    """Execute validation of the configuration file"""
     validator = VoronoiConfigValidator()
     if not validator.validate_config(config):
         validator.print_validation_results()
@@ -20,7 +20,7 @@ def validate_config_file(config):
         print()
 
 def check_directory(output_dir):
-    """出力ディレクトリが存在するか確認し、上書きするか尋ねる。"""
+    """Check if the output directory exists and ask whether to overwrite it."""
     if os.path.exists(output_dir):
         answer = input(f"The directory '{output_dir}' already exists. Do you want to overwrite it? (y/n): ")
         if answer.lower() != "y":
@@ -28,58 +28,58 @@ def check_directory(output_dir):
             sys.exit(0)
 
 def create_directory(output_dir, datatype_info):
-    """出力ディレクトリを作成する。"""
+    """Create the output directory."""
     for datatype, params in datatype_info.items():
         os.makedirs(f"{output_dir}/{datatype}/images", exist_ok=True)
         os.makedirs(f"{output_dir}/{datatype}/labels", exist_ok=True)
 
 def save_images(output_dir, datatype, name, image, label):
-    """画像とラベルを保存する。"""
+    """Save images and labels."""
     base_path = f"{output_dir}/{datatype}"
     cv2.imwrite(f"{base_path}/images/{name}.png", image)
     cv2.imwrite(f"{base_path}/labels/{name}.png", label)
 
 def main(config_file):
-    # configファイルの読み込み
+    # Load config file
     with open(config_file, 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
     
-    # バリデーション実行
+    # Execute validation
     validate_config_file(config)
     
     voronoi_config = config["voronoi"]
     output_dir = voronoi_config["output_dir"]
     datatype_info = voronoi_config["datatype_info"]
 
-    # 初期化
+    # Initialize
     voronoi_generator = VoronoiGenerator(voronoi_config)
     voronoi_splitter = VoronoiSplitter(voronoi_config)
     
-    # 出力ディレクトリの作成
+    # Create output directory
     check_directory(output_dir)
     create_directory(output_dir, datatype_info)
 
-    # ボロノイ図の生成と保存
+    # Generate and save Voronoi diagrams
     for datatype, params in datatype_info.items():
-        np.random.seed(params["seed"]) # 乱数シードの設定
+        np.random.seed(params["seed"]) # Set random seed
         name_counter = 0
         for i in tqdm(range(params["diagram_num"]), desc=f"Generating {datatype} images"):
-            # パラメータの取得
+            # Get parameters
             point_params = voronoi_config["point_generation"]["params"]
-            if voronoi_config["point_generation"]["method"] == "random":
+            if voronoi_config["point_generation"]["method"] == "random": # random_sampling
                 points_num_list = point_params["points_num"]
                 points_num = points_num_list[i % len(points_num_list)]
                 kwargs = {"points_num": points_num}
-            else:  # poisson_disk
+            else:  # poisson_disk_sampling
                 min_distance_list = point_params["min_distance"]
                 min_distance = min_distance_list[i % len(min_distance_list)]
                 max_attempts = point_params.get("max_attempts", 100)
                 kwargs = {"min_distance": min_distance, "max_attempts": max_attempts}
             
-            voronoi_image, voronoi_label = voronoi_generator.generate(**kwargs) # ボロノイ図の生成
-            image_list, label_list = voronoi_splitter(voronoi_image, voronoi_label) # 画像とラベルの分割
+            voronoi_image, voronoi_label = voronoi_generator.generate(**kwargs) # Generate Voronoi diagram
+            image_list, label_list = voronoi_splitter(voronoi_image, voronoi_label) # Split images and labels
 
-            # 保存
+            # Save
             for image, label in zip(image_list, label_list):
                 save_images(output_dir, datatype, name_counter, image, label)
                 name_counter += 1
