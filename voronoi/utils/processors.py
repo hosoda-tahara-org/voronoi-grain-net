@@ -29,7 +29,7 @@ class CropProcessor(ImageProcessor):
         return image[top:top + self.crop_height, left:left + self.crop_width]
 
 
-class DefectProcessor(ImageProcessor):
+class EllipticalMaskProcessor(ImageProcessor):
     """欠陥を追加するプロセッサー"""
     
     def __init__(self, min_num: int = 0, max_num: int = 10, 
@@ -42,18 +42,18 @@ class DefectProcessor(ImageProcessor):
         self.color = color
     
     def process(self, image: np.ndarray) -> np.ndarray:
-        """欠陥（ランダムな楕円）を追加する"""
+        """楕円マスクを追加する"""
         h, w = image.shape[:2]
-        image_defected = image.copy()
-        num_defects = np.random.randint(self.min_num, self.max_num + 1)
+        image_masked = image.copy()
+        num_masks = np.random.randint(self.min_num, self.max_num + 1)
         
-        for _ in range(num_defects):
+        for _ in range(num_masks):
             center = (np.random.randint(0, w), np.random.randint(0, h))
             size = (np.random.randint(self.min_size, self.max_size), 
                    np.random.randint(self.min_size, self.max_size))
-            cv2.ellipse(image_defected, center, size, 0, 0, 360, self.color, -1)
+            cv2.ellipse(image_masked, center, size, 0, 0, 360, self.color, -1)
         
-        return image_defected
+        return image_masked
 
 
 class GaussianNoiseProcessor(ImageProcessor):
@@ -103,7 +103,7 @@ class ProcessorFactory:
     def __init__(self):
         self._processors = {
             "crop": CropProcessor,
-            "defect": DefectProcessor,
+            "elliptical_mask": EllipticalMaskProcessor,
             "gaussian_noise": GaussianNoiseProcessor,
             "perlin_noise": PerlinNoiseProcessor,
         }

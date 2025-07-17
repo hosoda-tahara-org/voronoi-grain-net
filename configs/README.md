@@ -22,7 +22,7 @@ This directory contains configuration files for generating Voronoi diagram image
 | | mean | Mean value for Gaussian distribution |
 | | std | Standard deviation for Gaussian distribution |
 | **post_processors** | type: "crop" | Crops the image to specified dimensions |
-| | type: "defect" | Adds random black ellipses to simulate contamination artifacts |
+| | type: "elliptical_mask" | Adds random black ellipses to simulate contamination artifacts |
 | | type: "gaussian_noise" | Adds Gaussian noise to images |
 | | type: "perlin_noise" | Adds Perlin noise to simulate polishing artifacts |
 | **datatype_info** | diagram_num | Number of Voronoi diagrams to generate per dataset |

@@ -134,7 +134,7 @@ class VoronoiConfigValidator:
             self.errors.append("'post_processors' はリストである必要があります")
             return
         
-        valid_types = ["crop", "defect", "gaussian_noise", "perlin_noise"]
+        valid_types = ["crop", "elliptical_mask", "gaussian_noise", "perlin_noise"]
         valid_apply_to = ["image", "label", "both"]
         
         for i, processor in enumerate(processors):
@@ -173,7 +173,7 @@ class VoronoiConfigValidator:
             elif not isinstance(params["crop_height"], int) or params["crop_height"] <= 0:
                 self.errors.append(f"post_processors[{index}].params.crop_height は正の整数である必要があります")
         
-        elif processor_type == "defect":
+        elif processor_type == "elliptical_mask":
             required_params = ["min_num", "max_num", "min_size", "max_size", "color"]
             for param in required_params:
                 if param not in params:

@@ -37,7 +37,7 @@ voronoi:
       params:
         crop_width: 2560
         crop_height: 1536
-    # - type: "defect"
+    # - type: "elliptical_mask"
     #   apply_to: "image"
     #   params:
     #     min_num: 0

@@ -29,7 +29,7 @@ if __name__ == "__main__":
         },
         "post_processors": [
             {"type": "crop", "params": {"crop_width": 2560, "crop_height": 1536}, "apply_to": "both"},
-            {"type": "defect", "params": {"min_num": 0, "max_num": 10}, "apply_to": "image"},
+            {"type": "elliptical_mask", "params": {"min_num": 0, "max_num": 10}, "apply_to": "image"},
             {"type": "gaussian_noise", "params": {"mean": 0, "std": 20}, "apply_to": "image"},
             {"type": "perlin_noise", "params": {"res": [32, 32], "noise_range": 20}, "apply_to": "image"},
         ]
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         },
         "post_processors": [
             {"type": "crop", "params": {"crop_width": 2560, "crop_height": 1536}, "apply_to": "both"},
-            {"type": "defect", "params": {"min_num": 0, "max_num": 10}, "apply_to": "image"},
+            {"type": "elliptical_mask", "params": {"min_num": 0, "max_num": 10}, "apply_to": "image"},
             {"type": "gaussian_noise", "params": {"mean": 0, "std": 20}, "apply_to": "image"},
             {"type": "perlin_noise", "params": {"res": [32, 32], "noise_range": 20}, "apply_to": "image"},
         ]

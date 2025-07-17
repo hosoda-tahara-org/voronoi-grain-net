@@ -1,0 +1,64 @@
+description:
+  sample configuration for Voronoi diagram generation with random point generation.
+
+voronoi:
+  width: 3072
+  height: 2048
+  output_dir: ./outputs/voronoi_sample_all
+  
+  # 母点生成設定（ランダム生成）
+  point_generation:
+    method: "random"  # "random" または "poisson_disk"
+    params:
+      points_num: [1943, 1269, 882, 660, 522, 415, 338, 287, 241, 203, 175, 159, 140, 126, 110, 98, 92, 82, 77, 73, 66, 62, 59, 54, 51]
+  
+  # 描画設定
+  label_info:
+    color: [255, 255, 255]
+    thickness: 2
+  
+  image_info:
+    method: "uniform"
+
+    # method: "gaussian"
+    # params:
+    #   mean: 128
+    #   std: 32
+  
+  # 後処理プロセッサーの設定
+  post_processors:
+    - type: "crop"
+      apply_to: "both"
+      params:
+        crop_width: 2560
+        crop_height: 1536
+    - type: "elliptical_mask"
+      apply_to: "image"
+      params:
+        min_num: 0
+        max_num: 10
+        min_size: 10
+        max_size: 40
+        color: [0, 0, 0]
+    - type: "gaussian_noise"
+      apply_to: "image"
+      params:
+        mean: 0
+        std: 20
+    - type: "perlin_noise"
+      apply_to: "image"
+      params:
+        res: [32, 32]
+        noise_range: 20
+  
+  datatype_info:
+    train:
+      diagram_num: 10
+      seed: 0
+    valid:
+      diagram_num: 10
+      seed: 1
+  
+  split:
+    split_width: 512
+    split_height: 512 
