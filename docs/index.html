@@ -155,12 +155,7 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3">Dataset</h2>
     <p><img src="static/images/dataset.png" alt="dataset"></p>
-    <p class="has-text-justified">This study examined commercially pure titanium with an α-phase equiaxed grain
-      microstructure. A high-purity titanium billet (Ti; purity 99.995%, manufactured by Toho
-      Titanium Co., Ltd.) was subjected to mechanical polishing followed by electropolishing.
-      Microstructural observations were performed using a scanning electron microscope (SEM)
-      with a backscattered electron (BSE) detector. Nine SEM-BSE images (2,560 × 1,536 pixels)
-      were obtained, and the corresponding ground truth labels were manually annotated. </p>
+    <p class="has-text-justified">We used nine SEM-BSE images (2,560 × 1,536 pixels) of α-phase equiaxed grain microstructure in commercially pure titanium (99.995% purity), with manually annotated ground truth labels. Samples were mechanically and electropolished.</p>
   </div>
 </section>
 <!-- End dataset -->
@@ -181,7 +176,7 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3">Results</h2>
     <p><img src="static/images/results.png" alt="results"></p>
-    <p class="has-text-justified">The grain boundary, indicated by the red arrow in Fig. 9(a), was not accurately extracted by the conventional models (Fig. 9(c) and 9(d)). This grain boundary exhibits minimal contrast between adjacent grains, making it challenging to distinguish visually. However, experienced metallurgists can identify such boundaries by incorporating domain knowledge that equiaxed grains are connected at triple junctions. The inability of conventional models to extract this boundary accurately suggests a limited understanding of the microstructural characteristics associated with equiaxed grains. In contrast, Voronoi+SEM successfully identified this grain boundary (Fig. 9(e)). This achievement can be attributed to the inherent structural features of Voronoi diagrams, which contain numerous triple junctions. The model likely learned these features during training, enabling accurate grain boundary extraction even in low-contrast regions.</p>
+    <p class="has-text-justified">While conventional models struggled to extract low-contrast grain boundaries, which are difficult to distinguish visually, our  model successfully identified them. This success is likely due to the inherent triple junction features of Voronoi diagrams. The model learned these features during training, which enabled accurate grain boundary extraction even in challenging low-contrast regions.</p>
   </div>
 </section>
 <!-- End results -->
