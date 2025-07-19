@@ -3,7 +3,7 @@
 This repository contains the official implementation of the paper:  
 **_Transfer learning approach with synthetic data for high-accuracy segmentation of equiaxed grain boundaries_**.
 
-### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Weights(Coming soon...)]() |
+### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Weights(Google drive)](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing) |
 
 > ⚠️ You may need to click **"Yes, get this app back up!"** on the Voronoi demo page if it's temporarily inactive.
 
@@ -15,11 +15,12 @@ This repository provides:
 1. 🧪 A **synthetic dataset generator** using Voronoi diagrams for microstructure-like segmentation tasks.
 2. 🧠 Pretrained U-Net weights trained on synthetic Voronoi images, ready to be fine-tuned on SEM data.
 
-⚠️ Note: We do not provide a full training pipeline or U-Net implementation here. Please refer to [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet) for the base architecture.
+> ⚠️ We do not provide a full training pipeline or U-Net implementation here. Please refer to [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet) for the base architecture.
 
 
 ## News
 
+- [2025/07/19]: Pretrained models released
 - [2025/07/17]: Code repository released
 
 
@@ -45,8 +46,36 @@ This repository provides:
 
 ## Using Pretrained Models
 
-*Pretrained weights will be available soon*
+This section explains how to load and use the pretrained model weights with an existing U-Net implementation. **This repository does not provide a full U-Net training pipeline or inference script.** For the base U-Net architecture, please refer to [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet).
 
+
+1.  **Download Pretrained Models**  
+   Download the pretrained model weights [from here](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing).
+
+2. **Set up Pytorch-UNet**
+   ```bash
+   git clone https://github.com/milesial/Pytorch-UNet.git
+   cd Pytorch-UNet
+   # If necessary, install dependencies following the instructions in the Pytorch-UNet repository's README.
+   ```
+
+3. **Instantiate and Parameterize the U-Net Model**  
+   In your own inference script, instantiate the U-Net model using the Pytorch-UNet codebase with the following parameters:
+
+   ```python
+   import torch
+   from unet import UNet # Import the UNet class from Pytorch-UNet repository
+
+   model = UNet(n_channels=1, n_classes=1, bilinear=False)
+   ```
+
+4. **Load the pretrained model**
+   ```python
+   # Replace 'path/to/pretrained/weights.pth' with the actual path to your downloaded weights file.
+   model.load_state_dict(torch.load('path/to/pretrained/weights.pth'))
+   ```
+
+> ⚠️ The pretrained model weights provided (or referenced) were trained using the implementation from [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet), which is licensed under the GNU General Public License v3.0 (GPL-3.0). Therefore, these weights are subject to the terms of the GPL-3.0 license. For more details, please refer to the [License](#license) section of this README.
 
 ## Acknowledgement
 
