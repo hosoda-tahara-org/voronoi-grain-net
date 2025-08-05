@@ -1,7 +1,7 @@
 # voronoi-grain-net
 
 This repository contains the official implementation of the paper:  
-**_Transfer learning approach with synthetic data for high-accuracy segmentation of equiaxed grain boundaries_**.
+**_Transfer learning approach with Voronoi-based synthetic data for high-accuracy segmentation of equiaxed grain boundaries_**.
 
 ### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Weights(Google drive)](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing) |
 
@@ -105,7 +105,7 @@ We encourage users to review both licenses if they plan to reuse or redistribute
 
 ```bibtex
 @unpublished{ozaki2025transfer,
-  title={Transfer learning approach with synthetic data for high-accuracy segmentation of equiaxed grain boundaries},
+  title={Transfer learning approach with Voronoi-based synthetic data for high-accuracy segmentation of equiaxed grain boundaries},
   author={Ozaki, Koichi and Nohira, Naoki and Tahara, Masaki and Kumazawa, Itsuo and Hosoda, Hideki},
   year={2025},
   note={under review}
