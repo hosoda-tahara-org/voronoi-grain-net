@@ -5,7 +5,21 @@ This repository contains the official implementation of the paper:
 
 ### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Weights(Google drive)](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing) |
 
-> ⚠️ You may need to click **"Yes, get this app back up!"** on the Voronoi demo page if it's temporarily inactive.
+
+## ⚠️ IMPORTANT: About the Demo Page
+
+**If you see this screen when accessing the demo, the app is NOT broken:**
+
+<img src="sleep.png" alt="App sleep screen" width="500"/>
+
+**This is normal!** The free hosting service puts the app to sleep when inactive.
+
+### 🔄 How to wake it up:
+1. **Click the blue button** that says **"Yes, get this app back up!"**
+2. **Wait 30-60 seconds** for the app to start (first load is slow)
+3. The app will then work normally
+
+**The app is working, just sleeping. Please be patient!**
 
 
 ## Overview
