@@ -63,12 +63,12 @@
                     <div class="publication-links">
                          <!-- Arxiv PDF link -->
                       <span class="link-block">
-                        <a href="#" target="_blank"
+                        <a href="https://doi.org/10.1016/j.commatsci.2025.114378" target="_blank"
                         class="external-link button is-normal is-rounded is-dark">
                         <span class="icon">
                           <i class="fas fa-file-pdf"></i>
                         </span>
-                        <span>Paper - Under Review...</span>
+                        <span>Paper</span>
                       </a>
                     </span>
 
@@ -120,22 +120,20 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Accurate segmentation of microstructural images plays a critical role in quantitative
-            materials analysis. However, it remains a challenging task due to the scarcity of
-            annotated data and the inherent diversity of microstructures. In this study, we propose
-            a novel transfer learning approach utilizing Voronoi diagrams to enhance the extraction
-            accuracy of equiaxed grain boundaries in α-phase pure titanium. We evaluate the
-            effects of systematically controlled synthetic image generation conditions on
-            segmentation performance. These conditions include seed point placement, grayscale
-            value assignment, and the addition of Gaussian noise. The results demonstrate that
-            introducing moderate Gaussian noise clearly improves extraction accuracy, achieving
-            a higher Intersection over Union (IoU) score than models pre-trained on ImageNet.
-            Furthermore, the model pre-trained on Voronoi diagrams is shown to capture
-            microstructure-specific features, such as triple junctions, thereby enhancing grain
-            boundary extraction even in low-contrast regions. This study provides a foundation for
-            pre-trained models tailored to microstructural analysis and contributes to the
-            advancement of deep learning applications in materials science. The pretrained
-            models and code are publicly available on GitHub.
+            Accurate segmentation of microstructural images plays a critical role in quantitative materials analysis. 
+            However, it remains a challenging task due to the scarcity of annotated data and the inherent diversity of 
+            microstructures. While transfer learning is a promising solution to data scarcity, conventional approaches 
+            using models pre-trained on general-purpose datasets like ImageNet are often suboptimal due to their low 
+            similarity to microstructural images. To overcome this limitation, we propose a novel transfer learning 
+            approach utilizing synthetically generated Voronoi diagrams as a source dataset for equiaxed grain microstructure 
+            analysis. Unlike images produced by simulations or deep learning models, Voronoi diagrams can be created quickly 
+            with simple and intuitive parameters, while still resembling key structural features of equiaxed grain microstructures. 
+            This simplicity allows for efficient exploration of how generation conditions affect downstream model performance. 
+            Our results demonstrate that adding Gaussian noise to the Voronoi diagrams improves model performance, achieving 
+            a higher Intersection over Union (IoU) score than models pre-trained on ImageNet. Furthermore, the model learns 
+            microstructure-specific features such as triple junctions, enabling accurate grain boundary extraction even in 
+            low-contrast regions. This approach offers a simple and practical solution for pre-training task-specific 
+            models in materials science.
           </p>
         </div>
       </div>
@@ -179,11 +177,14 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-<pre><code>@unpublished{ozaki2025transfer,
-    title={Transfer learning approach with Voronoi-based synthetic data for high-accuracy segmentation of equiaxed grain boundaries},
-    author={Ozaki, Koichi and Nohira, Naoki and Tahara, Masaki and Kumazawa, Itsuo and Hosoda, Hideki},
-    year={2025},
-    note={under review}
+<pre><code>@article{ozaki2026transfer,
+  title   = {Transfer Learning Approach with Voronoi-based Synthetic Data for High-Accuracy Segmentation of Equiaxed Grain Boundaries},
+  author  = {Ozaki, Koichi and Nohira, Naoki and Tahara, Masaki and Kumazawa, Itsuo and Hosoda, Hideki},
+  journal = {Computational Materials Science},
+  volume  = {262},
+  pages   = {114378},
+  year    = {2026},
+  doi     = {10.1016/j.commatsci.2025.114378}
 }</code></pre>
     </div>
 </section>

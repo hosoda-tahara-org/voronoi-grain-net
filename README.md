@@ -1,12 +1,12 @@
-# voronoi-grain-net
+# voronoi-grain-net [[paper](https://doi.org/10.1016/j.commatsci.2025.114378)]
 
 This repository contains the official implementation of the paper:  
 **_Transfer learning approach with Voronoi-based synthetic data for high-accuracy segmentation of equiaxed grain boundaries_**.
 
-### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Weights(Google drive)](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing) |
+### 🔗 [Project Page](https://hosoda-tahara-org.github.io/voronoi-grain-net/) | [Voronoi demo page](https://voronoi-web.streamlit.app/) | [Pretrained Weights (Google Drive)](https://drive.google.com/drive/folders/1LeuwNjhs0DscPj5WA_630ilwzXm3i521?usp=sharing) |
 
 
-## ⚠️ IMPORTANT: About the Demo Page
+## ⚠️ Note about the Demo Page
 
 **If you see this screen when accessing the demo, the app is NOT broken:**
 
@@ -34,6 +34,7 @@ This repository provides:
 
 ## News
 
+- [2025/11/14]: Paper published
 - [2025/07/19]: Pretrained models released
 - [2025/07/17]: Code repository released
 
@@ -91,7 +92,7 @@ This section explains how to load and use the pretrained model weights with an e
 
 > ⚠️ The pretrained model weights provided (or referenced) were trained using the implementation from [milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet), which is licensed under the GNU General Public License v3.0 (GPL-3.0). Therefore, these weights are subject to the terms of the GPL-3.0 license. For more details, please refer to the [License](#license) section of this README.
 
-## Acknowledgement
+## Acknowledgments
 
 This work was supported by the Japan Society for the Promotion of Science (JSPS) and conducted using the TSUBAME4.0 supercomputer at the Institute of Science Tokyo.
 
@@ -118,10 +119,13 @@ We encourage users to review both licenses if they plan to reuse or redistribute
 ## Citation
 
 ```bibtex
-@unpublished{ozaki2025transfer,
-  title={Transfer learning approach with Voronoi-based synthetic data for high-accuracy segmentation of equiaxed grain boundaries},
-  author={Ozaki, Koichi and Nohira, Naoki and Tahara, Masaki and Kumazawa, Itsuo and Hosoda, Hideki},
-  year={2025},
-  note={under review}
+@article{ozaki2026transfer,
+  title   = {Transfer Learning Approach with Voronoi-based Synthetic Data for High-Accuracy Segmentation of Equiaxed Grain Boundaries},
+  author  = {Ozaki, Koichi and Nohira, Naoki and Tahara, Masaki and Kumazawa, Itsuo and Hosoda, Hideki},
+  journal = {Computational Materials Science},
+  volume  = {262},
+  pages   = {114378},
+  year    = {2026},
+  doi     = {10.1016/j.commatsci.2025.114378}
 }
 ```
